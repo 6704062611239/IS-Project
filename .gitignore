@@ -1,0 +1,15 @@
+# Model files (เทรนบน cloud แทน)
+*.pkl
+*.h5
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Images output
+*.png
+
+# VS Code
+.vscode/
