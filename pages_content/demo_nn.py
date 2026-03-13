@@ -2,54 +2,33 @@ import streamlit as st
 import numpy as np
 import os
 from PIL import Image
+import joblib
 
 def train_and_save():
+    from sklearn.neural_network import MLPClassifier
     import tensorflow as tf
-    from tensorflow.keras import layers, models
-    from tensorflow.keras.callbacks import EarlyStopping
 
     (X_train_raw, y_train_raw), _ = tf.keras.datasets.cifar10.load_data()
 
     ANIMAL_CLASSES = {2, 3, 4, 5, 6, 7}
-    def relabel(y):
-        return np.array([1 if int(l) in ANIMAL_CLASSES else 0 for l in y.flatten()])
+    y_train = np.array([1 if int(l) in ANIMAL_CLASSES else 0 for l in y_train_raw.flatten()])
 
-    y_train = relabel(y_train_raw)
-    X_train = X_train_raw.astype('float32') / 255.0
+    # Flatten และ normalize
+    X_train = X_train_raw.reshape(len(X_train_raw), -1).astype('float32') / 255.0
 
-    data_aug = tf.keras.Sequential([
-        layers.RandomFlip("horizontal"),
-        layers.RandomRotation(0.1),
-        layers.RandomZoom(0.1),
-    ])
+    # ใช้ subset เพื่อความเร็ว
+    X_train = X_train[:10000]
+    y_train = y_train[:10000]
 
-    model = models.Sequential([
-        layers.Input(shape=(32, 32, 3)),
-        data_aug,
-        layers.Conv2D(32, (3,3), padding='same', activation='relu'),
-        layers.BatchNormalization(),
-        layers.MaxPooling2D((2,2)),
-        layers.Dropout(0.25),
-        layers.Conv2D(64, (3,3), padding='same', activation='relu'),
-        layers.BatchNormalization(),
-        layers.MaxPooling2D((2,2)),
-        layers.Dropout(0.25),
-        layers.Conv2D(128, (3,3), padding='same', activation='relu'),
-        layers.BatchNormalization(),
-        layers.MaxPooling2D((2,2)),
-        layers.Dropout(0.25),
-        layers.Flatten(),
-        layers.Dense(256, activation='relu'),
-        layers.Dropout(0.5),
-        layers.Dense(1, activation='sigmoid')
-    ])
-
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-    model.fit(X_train, y_train, epochs=20, batch_size=64,
-              validation_split=0.2,
-              callbacks=[EarlyStopping(patience=5, restore_best_weights=True)],
-              verbose=0)
-    model.save('cifar10_cnn_model.h5')
+    model = MLPClassifier(
+        hidden_layer_sizes=(256, 128),
+        activation='relu',
+        max_iter=50,
+        random_state=42,
+        verbose=False
+    )
+    model.fit(X_train, y_train)
+    joblib.dump(model, 'cifar10_mlp_model.pkl')
     return model
 
 
@@ -58,16 +37,14 @@ def show():
     st.markdown("### CIFAR-10 — Animal vs Non-Animal Classification")
     st.markdown("---")
 
-    model_path = "cifar10_cnn_model.h5"
+    model_path = "cifar10_mlp_model.pkl"
 
     if not os.path.exists(model_path):
-        with st.spinner("⏳ กำลังเทรนโมเดล CNN อาจใช้เวลา 5-10 นาที..."):
-            import tensorflow as tf
+        with st.spinner("⏳ กำลังเทรนโมเดล MLP กรุณารอสักครู่..."):
             model = train_and_save()
         st.success("✅ เทรนโมเดลเสร็จแล้ว!")
     else:
-        import tensorflow as tf
-        model = tf.keras.models.load_model(model_path)
+        model = joblib.load(model_path)
         st.success("✅ โหลดโมเดลสำเร็จ!")
 
     col1, col2 = st.columns([1, 1])
@@ -84,18 +61,19 @@ def show():
     with col2:
         st.markdown("#### 📊 ผลการทำนาย")
         if uploaded_file is not None:
-            image       = Image.open(uploaded_file).convert("RGB")
+            image = Image.open(uploaded_file).convert("RGB")
             st.image(image, caption="รูปที่อัพโหลด", width=200)
 
             img_resized = image.resize((32, 32))
-            img_array   = np.array(img_resized).astype("float32") / 255.0
-            img_input   = np.expand_dims(img_array, axis=0)
+            img_array  = np.array(img_resized).astype("float32") / 255.0
+            img_flat   = img_array.flatten().reshape(1, -1)
 
             with st.spinner("กำลังวิเคราะห์..."):
-                prediction = float(model.predict(img_input, verbose=0)[0][0])
+                prediction = model.predict(img_flat)[0]
+                proba      = model.predict_proba(img_flat)[0]
 
-            is_animal  = prediction >= 0.5
-            confidence = prediction if is_animal else (1 - prediction)
+            is_animal  = prediction == 1
+            confidence = float(proba[1]) if is_animal else float(proba[0])
 
             if is_animal:
                 st.success("## 🐾 สัตว์ (Animal)")
@@ -107,9 +85,9 @@ def show():
 
             col_a, col_b = st.columns(2)
             with col_a:
-                st.metric("🐾 Animal",     f"{prediction*100:.2f}%")
+                st.metric("🐾 Animal",     f"{proba[1]*100:.2f}%")
             with col_b:
-                st.metric("🚗 Non-Animal", f"{(1-prediction)*100:.2f}%")
+                st.metric("🚗 Non-Animal", f"{proba[0]*100:.2f}%")
         else:
             st.info("👈 กรุณาอัพโหลดรูปภาพทางด้านซ้าย")
 
