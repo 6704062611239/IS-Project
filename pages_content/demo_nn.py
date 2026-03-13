@@ -4,26 +4,42 @@ import os
 from PIL import Image
 import joblib
 
+ANIMAL_CLASSES = {2, 3, 4, 5, 6, 7}
+
+CIFAR10_URL = "https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz"
+
+def load_cifar10():
+    import urllib.request
+    import tarfile
+    import pickle
+
+    if not os.path.exists("cifar-10-batches-py"):
+        with st.spinner("⏳ กำลังโหลด CIFAR-10..."):
+            urllib.request.urlretrieve(CIFAR10_URL, "cifar10.tar.gz")
+            with tarfile.open("cifar10.tar.gz") as tar:
+                tar.extractall()
+
+    X, y = [], []
+    for i in range(1, 4):  # ใช้แค่ 3 batch เพื่อความเร็ว
+        with open(f"cifar-10-batches-py/data_batch_{i}", 'rb') as f:
+            batch = pickle.load(f, encoding='bytes')
+            X.append(batch[b'data'])
+            y.extend(batch[b'labels'])
+
+    X = np.concatenate(X).astype('float32') / 255.0
+    y = np.array([1 if int(l) in ANIMAL_CLASSES else 0 for l in y])
+    return X, y
+
+
 def train_and_save():
     from sklearn.neural_network import MLPClassifier
-    import tensorflow as tf
 
-    (X_train_raw, y_train_raw), _ = tf.keras.datasets.cifar10.load_data()
-
-    ANIMAL_CLASSES = {2, 3, 4, 5, 6, 7}
-    y_train = np.array([1 if int(l) in ANIMAL_CLASSES else 0 for l in y_train_raw.flatten()])
-
-    # Flatten และ normalize
-    X_train = X_train_raw.reshape(len(X_train_raw), -1).astype('float32') / 255.0
-
-    # ใช้ subset เพื่อความเร็ว
-    X_train = X_train[:10000]
-    y_train = y_train[:10000]
+    X_train, y_train = load_cifar10()
 
     model = MLPClassifier(
         hidden_layer_sizes=(256, 128),
         activation='relu',
-        max_iter=50,
+        max_iter=30,
         random_state=42,
         verbose=False
     )
