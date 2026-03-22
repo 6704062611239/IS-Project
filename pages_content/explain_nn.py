@@ -26,7 +26,7 @@ def show():
         -  horse (ม้า)
         """)
     with col2:
-        st.error("🚗 **Non-Animal (Label = 0)**")
+        st.error(" **Non-Animal (Label = 0)**")
         st.markdown("""
         -  airplane (เครื่องบิน)
         -  automobile (รถยนต์)
