@@ -7,7 +7,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-st.sidebar.title("🤖 IS Project 2568\n6704062611239\nPhattaraphong Piwsuk")
+st.sidebar.title("🤖 IS Project 2568\n6704062611239 Phattaraphong Piwsuk")
 st.sidebar.markdown("---")
 st.sidebar.markdown("###  เมนู")
 
