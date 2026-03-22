@@ -1,7 +1,7 @@
 import streamlit as st
 
 def show():
-    st.title(" IS Project 6704062611239")
+    st.title(" IS Project ")
     st.subheader("Machine Learning & Neural Network")
     st.markdown("---")
 
