@@ -1,7 +1,7 @@
 import streamlit as st
 
 def show():
-    st.title("🤖 IS Project 6704062611239")
+    st.title(" IS Project 6704062611239")
     st.subheader("Machine Learning & Neural Network")
     st.markdown("---")
 
@@ -9,7 +9,7 @@ def show():
 
     with col1:
         st.markdown("""
-        ### 🚢 Ensemble ML
+        ###  Ensemble ML
         **Dataset:** Titanic — Machine Learning from Disaster
 
         **โมเดล:** Stacking Classifier
@@ -24,7 +24,7 @@ def show():
 
     with col2:
         st.markdown("""
-        ### 🖼️ Neural Network
+        ###  Neural Network
         **Dataset:** CIFAR-10
 
         **โมเดล:** CNN (Convolutional Neural Network)
