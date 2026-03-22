@@ -14,7 +14,7 @@ def load_cifar10():
     import pickle
 
     if not os.path.exists("cifar-10-batches-py"):
-        with st.spinner("⏳ กำลังโหลด CIFAR-10..."):
+        with st.spinner(" กำลังโหลด CIFAR-10..."):
             urllib.request.urlretrieve(CIFAR10_URL, "cifar10.tar.gz")
             with tarfile.open("cifar10.tar.gz") as tar:
                 tar.extractall()
@@ -49,24 +49,24 @@ def train_and_save():
 
 
 def show():
-    st.title("🧪 ทดสอบ Neural Network")
+    st.title(" ทดสอบ Neural Network")
     st.markdown("### CIFAR-10 — Animal vs Non-Animal Classification")
     st.markdown("---")
 
     model_path = "cifar10_mlp_model.pkl"
 
     if not os.path.exists(model_path):
-        with st.spinner("⏳ กำลังเทรนโมเดล MLP กรุณารอสักครู่..."):
+        with st.spinner(" กำลังเทรนโมเดล MLP กรุณารอสักครู่..."):
             model = train_and_save()
-        st.success("✅ เทรนโมเดลเสร็จแล้ว!")
+        st.success(" เทรนโมเดลเสร็จแล้ว!")
     else:
         model = joblib.load(model_path)
-        st.success("✅ โหลดโมเดลสำเร็จ!")
+        st.success(" โหลดโมเดลสำเร็จ!")
 
     col1, col2 = st.columns([1, 1])
 
     with col1:
-        st.markdown("#### 🖼️ อัพโหลดรูปภาพ")
+        st.markdown("####  อัพโหลดรูปภาพ")
         st.markdown("""
         **ตัวอย่างรูปที่ทดสอบได้:**
         - 🐾 สัตว์: นก, แมว, กวาง, หมา, กบ, ม้า
@@ -75,7 +75,7 @@ def show():
         uploaded_file = st.file_uploader("เลือกรูปภาพ", type=["jpg", "jpeg", "png"])
 
     with col2:
-        st.markdown("#### 📊 ผลการทำนาย")
+        st.markdown("####  ผลการทำนาย")
         if uploaded_file is not None:
             image = Image.open(uploaded_file).convert("RGB")
             st.image(image, caption="รูปที่อัพโหลด", width=200)
@@ -92,24 +92,24 @@ def show():
             confidence = float(proba[1]) if is_animal else float(proba[0])
 
             if is_animal:
-                st.success("## 🐾 สัตว์ (Animal)")
+                st.success("##  สัตว์ (Animal)")
             else:
-                st.error("## 🚗 ไม่ใช่สัตว์ (Non-Animal)")
+                st.error("##  ไม่ใช่สัตว์ (Non-Animal)")
 
             st.metric("ความมั่นใจ", f"{confidence*100:.2f}%")
             st.progress(float(confidence))
 
             col_a, col_b = st.columns(2)
             with col_a:
-                st.metric("🐾 Animal",     f"{proba[1]*100:.2f}%")
+                st.metric(" Animal",     f"{proba[1]*100:.2f}%")
             with col_b:
-                st.metric("🚗 Non-Animal", f"{proba[0]*100:.2f}%")
+                st.metric(" Non-Animal", f"{proba[0]*100:.2f}%")
         else:
-            st.info("👈 กรุณาอัพโหลดรูปภาพทางด้านซ้าย")
+            st.info(" กรุณาอัพโหลดรูปภาพทางด้านซ้าย")
 
     st.markdown("---")
     col1, col2 = st.columns(2)
     with col1:
-        st.success("**🐾 Animal (สัตว์)**\nbird • cat • deer • dog • frog • horse")
+        st.success("** Animal (สัตว์)**\nbird • cat • deer • dog • frog • horse")
     with col2:
-        st.error("**🚗 Non-Animal (ไม่ใช่สัตว์)**\nairplane • automobile • ship • truck")
+        st.error("** Non-Animal (ไม่ใช่สัตว์)**\nairplane • automobile • ship • truck")

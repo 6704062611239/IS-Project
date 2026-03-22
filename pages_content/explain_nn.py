@@ -1,12 +1,12 @@
 import streamlit as st
 
 def show():
-    st.title("📄 Neural Network")
+    st.title(" Neural Network")
     st.markdown("### CIFAR-10 — Animal vs Non-Animal Classification")
     st.markdown("---")
 
     # ── 1. Dataset ──
-    st.header("1. 📦 Dataset")
+    st.header("1.  Dataset")
     st.markdown("""
     **ที่มา:** [CIFAR-10 — Built-in Dataset (TensorFlow/Keras)](https://www.tensorflow.org/api_docs/python/tf/keras/datasets/cifar10)
 
@@ -16,28 +16,28 @@ def show():
 
     col1, col2 = st.columns(2)
     with col1:
-        st.success("🐾 **Animal (Label = 1)**")
+        st.success(" **Animal (Label = 1)**")
         st.markdown("""
-        - ✈️ bird (นก)
-        - 🐱 cat (แมว)
-        - 🦌 deer (กวาง)
-        - 🐶 dog (หมา)
-        - 🐸 frog (กบ)
-        - 🐴 horse (ม้า)
+        -  bird (นก)
+        -  cat (แมว)
+        -  deer (กวาง)
+        -  dog (หมา)
+        -  frog (กบ)
+        -  horse (ม้า)
         """)
     with col2:
         st.error("🚗 **Non-Animal (Label = 0)**")
         st.markdown("""
-        - ✈️ airplane (เครื่องบิน)
-        - 🚗 automobile (รถยนต์)
-        - 🚢 ship (เรือ)
-        - 🚛 truck (รถบรรทุก)
+        -  airplane (เครื่องบิน)
+        -  automobile (รถยนต์)
+        -  ship (เรือ)
+        -  truck (รถบรรทุก)
         """)
 
     st.markdown("---")
 
     # ── 2. ความไม่สมบูรณ์ ──
-    st.header("2. ⚠️ ความไม่สมบูรณ์ของข้อมูล")
+    st.header("2.  ความไม่สมบูรณ์ของข้อมูล")
     st.markdown("""
     | ปัญหา | วิธีแก้ |
     |---|---|
@@ -50,7 +50,7 @@ def show():
     st.markdown("---")
 
     # ── 3. Data Preparation ──
-    st.header("3. 🔧 การเตรียมข้อมูล (Data Preparation)")
+    st.header("3.  การเตรียมข้อมูล (Data Preparation)")
     st.markdown("""
     1. **โหลด CIFAR-10** ผ่าน `tf.keras.datasets.cifar10.load_data()`
     2. **Relabel** 10 class → 2 class (Animal / Non-Animal)
@@ -66,7 +66,7 @@ def show():
     st.markdown("---")
 
     # ── 4. ทฤษฎี CNN ──
-    st.header("4. 📚 ทฤษฎี Convolutional Neural Network (CNN)")
+    st.header("4.  ทฤษฎี Convolutional Neural Network (CNN)")
     st.markdown("""
     CNN เป็นโครงข่ายประสาทเทียมที่ออกแบบมาสำหรับการประมวลผลรูปภาพโดยเฉพาะ
     ประกอบด้วย Layer หลักๆ ดังนี้:
@@ -97,7 +97,7 @@ def show():
     st.markdown("---")
 
     # ── 5. ขั้นตอนการพัฒนา ──
-    st.header("5. 🛠️ ขั้นตอนการพัฒนาโมเดล")
+    st.header("5.  ขั้นตอนการพัฒนาโมเดล")
     st.markdown("""
     1. โหลด CIFAR-10 Dataset
     2. Relabel เป็น Animal / Non-Animal
@@ -113,7 +113,7 @@ def show():
     st.markdown("---")
 
     # ── 6. อ้างอิง ──
-    st.header("6. 📖 แหล่งอ้างอิง")
+    st.header("6.  แหล่งอ้างอิง")
     st.markdown("""
     - CIFAR-10 Dataset: https://www.cs.toronto.edu/~kriz/cifar.html
     - TensorFlow/Keras Documentation: https://www.tensorflow.org/api_docs/python/tf/keras

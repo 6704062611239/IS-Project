@@ -1,12 +1,12 @@
 import streamlit as st
 
 def show():
-    st.title("📄 Ensemble Machine Learning")
+    st.title(" Ensemble Machine Learning")
     st.markdown("### Titanic — Survival Prediction")
     st.markdown("---")
 
     # ── 1. Dataset ──
-    st.header("1. 📦 Dataset")
+    st.header("1.  Dataset")
     st.markdown("""
     **ที่มา:** [Kaggle — Titanic: Machine Learning from Disaster](https://www.kaggle.com/competitions/titanic)
 
@@ -39,7 +39,7 @@ def show():
     st.markdown("---")
 
     # ── 2. Data Preparation ──
-    st.header("2. 🔧 การเตรียมข้อมูล (Data Preparation)")
+    st.header("2.  การเตรียมข้อมูล (Data Preparation)")
     st.markdown("""
     **ขั้นตอนการเตรียมข้อมูล:**
 
@@ -61,7 +61,7 @@ def show():
     st.markdown("---")
 
     # ── 3. ทฤษฎี Ensemble / Stacking ──
-    st.header("3. 📚 ทฤษฎี Ensemble Learning — Stacking")
+    st.header("3.  ทฤษฎี Ensemble Learning — Stacking")
     st.markdown("""
     **Ensemble Learning** คือการนำโมเดลหลายตัวมารวมกัน เพื่อให้ผลลัพธ์ดีกว่าโมเดลเดี่ยว
 
@@ -93,21 +93,21 @@ def show():
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown("""
-        **🌲 Random Forest**
+        ** Random Forest**
         - รวม Decision Tree หลายต้น
         - แต่ละต้นเรียนรู้จาก subset ของข้อมูล
         - โหวตผลลัพธ์เพื่อลด overfitting
         """)
     with col2:
         st.markdown("""
-        **⚡ XGBoost**
+        ** XGBoost**
         - Gradient Boosting แบบ optimized
         - เรียนรู้จากข้อผิดพลาดของโมเดลก่อนหน้า
         - ประสิทธิภาพสูง เร็วกว่า Gradient Boosting ทั่วไป
         """)
     with col3:
         st.markdown("""
-        **🎯 SVM**
+        ** SVM**
         - หา hyperplane ที่แบ่ง class ได้ดีที่สุด
         - ใช้ RBF kernel สำหรับข้อมูลที่ไม่เป็นเส้นตรง
         - เหมาะกับข้อมูลขนาดกลาง
@@ -116,7 +116,7 @@ def show():
     st.markdown("---")
 
     # ── 4. ขั้นตอนการพัฒนา ──
-    st.header("4. 🛠️ ขั้นตอนการพัฒนาโมเดล")
+    st.header("4.  ขั้นตอนการพัฒนาโมเดล")
     st.markdown("""
     1. โหลดและสำรวจ Dataset (EDA)
     2. เตรียมข้อมูล (Data Preparation)
@@ -132,7 +132,7 @@ def show():
     st.markdown("---")
 
     # ── 5. อ้างอิง ──
-    st.header("5. 📖 แหล่งอ้างอิง")
+    st.header("5.  แหล่งอ้างอิง")
     st.markdown("""
     - Kaggle Titanic Competition: https://www.kaggle.com/competitions/titanic
     - Scikit-learn StackingClassifier: https://scikit-learn.org/stable/modules/ensemble.html

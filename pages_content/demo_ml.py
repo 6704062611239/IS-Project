@@ -51,7 +51,7 @@ def train_and_save():
 
 
 def show():
-    st.title("🧪 ทดสอบ Ensemble ML")
+    st.title(" ทดสอบ Ensemble ML")
     st.markdown("### Titanic — ทำนายการรอดชีวิต")
     st.markdown("---")
 
@@ -59,27 +59,27 @@ def show():
     scaler_path = "titanic_scaler.pkl"
 
     if not os.path.exists(model_path) or not os.path.exists(scaler_path):
-        with st.spinner("⏳ กำลังเทรนโมเดล กรุณารอสักครู่..."):
+        with st.spinner(" กำลังเทรนโมเดล กรุณารอสักครู่..."):
             model, scaler = train_and_save()
-        st.success("✅ เทรนโมเดลเสร็จแล้ว!")
+        st.success(" เทรนโมเดลเสร็จแล้ว!")
     else:
         model  = joblib.load(model_path)
         scaler = joblib.load(scaler_path)
-        st.success("✅ โหลดโมเดลสำเร็จ!")
+        st.success(" โหลดโมเดลสำเร็จ!")
 
     st.markdown("กรอกข้อมูลผู้โดยสารด้านล่าง แล้วกด **ทำนาย** ได้เลยครับ")
     st.markdown("---")
 
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("#### 👤 ข้อมูลผู้โดยสาร")
+        st.markdown("####  ข้อมูลผู้โดยสาร")
         pclass = st.selectbox("ชั้นโดยสาร (Pclass)", [1, 2, 3])
         sex    = st.radio("เพศ (Sex)", ["ชาย", "หญิง"], horizontal=True)
         age    = st.slider("อายุ (Age)", 1, 80, 30)
         fare   = st.number_input("ราคาตั๋ว (Fare)", min_value=0.0, max_value=600.0, value=32.0, step=0.5)
 
     with col2:
-        st.markdown("#### 🚢 ข้อมูลการเดินทาง")
+        st.markdown("####  ข้อมูลการเดินทาง")
         sibsp    = st.number_input("จำนวนพี่น้อง/คู่สมรส (SibSp)", 0, 8, 0)
         parch    = st.number_input("จำนวนพ่อแม่/ลูก (Parch)", 0, 6, 0)
         embarked = st.selectbox("ท่าเรือที่ขึ้น (Embarked)",
@@ -88,7 +88,7 @@ def show():
                                 ["Unknown", "A", "B", "C", "D", "E", "F", "G", "T"])
 
     st.markdown("---")
-    if st.button("🔮 ทำนายการรอดชีวิต", use_container_width=True, type="primary"):
+    if st.button(" ทำนายการรอดชีวิต", use_container_width=True, type="primary"):
         sex_val      = 0 if sex == "ชาย" else 1
         embarked_val = {"S — Southampton": 0, "C — Cherbourg": 1, "Q — Queenstown": 2}[embarked]
         cabin_map    = {"Unknown": -1, "A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6, "T": 7}
@@ -107,12 +107,12 @@ def show():
         prediction      = model.predict(features_scaled)[0]
         probability     = model.predict_proba(features_scaled)[0]
 
-        st.markdown("### 📊 ผลการทำนาย")
+        st.markdown("###  ผลการทำนาย")
         if prediction == 1:
-            st.success("## ✅ รอดชีวิต (Survived)")
+            st.success("##  รอดชีวิต (Survived)")
             st.balloons()
         else:
-            st.error("## ❌ ไม่รอดชีวิต (Not Survived)")
+            st.error("##  ไม่รอดชีวิต (Not Survived)")
 
         col_a, col_b = st.columns(2)
         with col_a:
